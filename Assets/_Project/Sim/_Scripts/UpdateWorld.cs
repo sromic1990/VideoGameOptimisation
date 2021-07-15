@@ -47,9 +47,11 @@ public class UpdateWorld : MonoBehaviour
 
     void SimulateWorld(Texture2D texture)
     {
-        for (int y = 0; y < texture.height; y++)
+        int x = 10, y = 10;
+        
+        // for (int y = 0; y < texture.height; y++)
         {
-            for (int x = 0; x < texture.width; x++)
+            // for (int x = 0; x < texture.width; x++)
             {
                 //if a cell has more than 4 black neighbours make it blue
                 //Commercial Property
@@ -126,45 +128,46 @@ public class UpdateWorld : MonoBehaviour
                 texture.Apply();
             }
         }
-
+        
         SimulateWorld(texture);
+
     }
 
     //Draw a pixel by pixel line between two points
     //For more information on the algorithm see: https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm
     //DO NOT MODIFY OR OPTMISE
-    void DrawPixelLine(int x, int y, int x2, int y2, Color color, Texture2D texture)
+    void DrawPixelLine(int x1, int y1, int x2, int y2, Color color, Texture2D texture)
     {
-        int w = x2 - x;
-        int h = y2 - y;
+        int width = x2 - x1;
+        int height = y2 - y1;
         int dx1 = 0, dy1 = 0, dx2 = 0, dy2 = 0;
-        if (w < 0) dx1 = -1; else if (w > 0) dx1 = 1;
-        if (h < 0) dy1 = -1; else if (h > 0) dy1 = 1;
-        if (w < 0) dx2 = -1; else if (w > 0) dx2 = 1;
-        int longest = Mathf.Abs(w);
-        int shortest = Mathf.Abs(h);
+        if (width < 0) dx1 = -1; else if (width > 0) dx1 = 1;
+        if (height < 0) dy1 = -1; else if (height > 0) dy1 = 1;
+        if (width < 0) dx2 = -1; else if (width > 0) dx2 = 1;
+        int longest = Mathf.Abs(width);
+        int shortest = Mathf.Abs(height);
         if (!(longest > shortest))
         {
-            longest = Mathf.Abs(h);
-            shortest = Mathf.Abs(w);
-            if (h < 0) dy2 = -1; else if (h > 0) dy2 = 1;
+            longest = Mathf.Abs(height);
+            shortest = Mathf.Abs(width);
+            if (height < 0) dy2 = -1; else if (height > 0) dy2 = 1;
             dx2 = 0;
         }
         int numerator = longest >> 1;
         for (int i = 0; i <= longest; i++)
         {
-            texture.SetPixel(x, y, color);
+            texture.SetPixel(x1, y1, color);
             numerator += shortest;
             if (!(numerator < longest))
             {
                 numerator -= longest;
-                x += dx1;
-                y += dy1;
+                x1 += dx1;
+                y1 += dy1;
             }
             else
             {
-                x += dx2;
-                y += dy2;
+                x1 += dx2;
+                y1 += dy2;
             }
         }
         texture.Apply();
